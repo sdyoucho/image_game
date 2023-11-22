@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>틀린 그림 찾기 게임</title>
+    <link rel="stylesheet" href="style_2.css">
+    <style>
+        /* 선택한 이미지를 표시할 공간 */
+        .selected-image-container {
+            position: absolute;
+            width: 1038px;
+            height: 580px;
+            display: none;
+            top: 730px;
+            left: 540px;
+            transform: translate(-50%, -50%);
+            overflow: hidden;
+            z-index: 1;
+        }
+
+        .selected-image {
+            width: 100%;
+            height: 100%;
+            object-fit: contain; /* 배율 조정을 위해 object-fit: contain 사용 */
+        }
+
+        /* 선택한 이미지를 표시할 공간 (틀린 그림) */
+        .selected-wrong-image-container {
+            position: absolute;
+            width: 1038px;
+            height: 580px;
+            display: none;
+            top: 1370px;
+            left: 540px;
+            transform: translate(-50%, -50%);
+            overflow: hidden;
+            z-index: 1;
+        }
+
+        .selected-wrong-image {
+            width: 100%;
+            height: 100%;
+            object-fit: contain; /* 배율 조정을 위해 object-fit: contain 사용 */
+        }
+    </style>
+</head>
+<body>
+    <div id="game-container" style="background-image: url('background_image.png');">
+        <!-- 게임 버전 선택 이미지 -->
+        <div id="game-versions">
+            <img src="stardays_button.png" class="game-version" data-version="스타데이즈" alt="스타데이즈" style="position: absolute; top: 878px; left: 15%;" onclick="showImage('stardays')">
+            <img src="luvdia_button.png" class="game-version" data-version="러브다이아" alt="러브다이아" style="position: absolute; top: 1172px; left: 15%;" onclick="showImage('luvdia')">
+            <img src="anke_button.png" class="game-version" data-version="안케" alt="안케" style="position: absolute; top: 1474px; left: 15%;" onclick="showImage('anke')">
+        </div>
+
+        <!-- 게임 상단에 찾은 차이점의 수 표시 -->
+        <div id="game-header" style="display: none;">
+            <span id="found-count">0</span> / <span id="total-count">0</span> 찾음
+        </div>
+
+        <!-- 이미지 다운로드 섹션 -->
+        <div id="download-section" style="display:none;">
+            <div id="image-options"></div>
+            <button id="download-button">이미지 다운로드</button>
+        </div>
+
+        <!-- 선택한 이미지를 표시할 공간 -->
+        <div class="selected-image-container">
+            <img class="selected-image" id="selected-image" alt="선택한 이미지">
+        </div>
+
+        <!-- 선택한 이미지를 표시할 공간 (틀린 그림) -->
+        <div class="selected-wrong-image-container">
+            <img class="selected-wrong-image" id="selected-wrong-image" alt="선택한 이미지 (틀린 그림)">
+            <canvas class="canvas-overlay" id="canvas-overlay"></canvas>
+        </div>
+    </div>
+
+    <script src="script_3.js"></script>
+    <script>
+        
+        function showImage(version) {
+            // 모든 game-version 이미지 숨기기
+            var gameVersions = document.getElementsByClassName('game-version');
+            for (var i = 0; i < gameVersions.length; i++) {
+                gameVersions[i].style.display = 'none';
+            }
+
+            // 선택한 이미지 표시
+            var selectedImage = document.getElementById('selected-image');
+            var selectedImageContainer = document.querySelector('.selected-image-container');
+            var selectedWrongImage = document.getElementById('selected-wrong-image');
+            var selectedWrongImageContainer = document.querySelector('.selected-wrong-image-container');
+
+            if (version === 'stardays') {
+                selectedImage.src = 'stardays/stardays_main_image.png'; // 스타데이즈 이미지 경로
+                selectedWrongImage.src = 'stardays/stardays_main_wrong_image.png'; // 스타데이즈 틀린 이미지 경로
+            } else if (version === 'luvdia') {
+                selectedImage.src = 'luvdia/luvdia_main_image.png'; // 러브다이아 이미지 경로
+                selectedWrongImage.src = 'luvdia/luvdia_main_wrong_image.png'; // 러브다이아 틀린 이미지 경로
+            } else if (version === 'anke') {
+                selectedImage.src = 'anke/anke_main_image.png'; // 안케 이미지 경로
+                selectedWrongImage.src = 'anke/anke_main_wrong_image.png'; // 안케 틀린 이미지 경로
+            }
+
+            selectedImageContainer.style.display = 'block';
+            selectedWrongImageContainer.style.display = 'block';
+
+            // 뒷배경 변경
+            document.getElementById('game-container').style.backgroundImage = "url('background_image_2.png')";
+        }
+    </script>
+    <script>
+        // div 요소 찾기
+        var selectedWrongImageContainer = document.querySelector('.selected-wrong-image-container');
+            if (selectedWrongImageContainer) {
+        // 요소가 존재할 때만 처리
+            selectedWrongImageContainer.addEventListener('click', function (event) {
+        // 클릭 이벤트 처리
+        var rect = this.getBoundingClientRect();
+        var x = event.clientX - rect.left;
+        var y = event.clientY - rect.top;
+        console.log("Clicked at (x=" + x + ", y=" + y + ")");
+    });
+}
+    </script>
+</body>
+
+</html>
