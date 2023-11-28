@@ -16,6 +16,30 @@
     left: 50%;
 }
 
+#AGF-logo {
+    top: 62px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100px;
+    height: 50px;
+}
+
+#game-logo {
+    top: 174px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100px;
+    height: 50px;
+}
+
+#stardays-button {
+    top: 510px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100px;
+    height: 50px;
+}
+
 #stardays-button {
     top: 868px;
     left: 50%;
