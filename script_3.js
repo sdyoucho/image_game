@@ -1,5 +1,3 @@
-// script.js
-
 document.addEventListener('DOMContentLoaded', function () {
     var canvas = document.getElementById("selected-wrong-image-canvas");
     var ctx = canvas.getContext("2d");
@@ -9,6 +7,21 @@ document.addEventListener('DOMContentLoaded', function () {
     var currentFoundCount = 0;
     var totalDifferencesCount = 0;
     var clickedDifference = null; // 클릭한 차이점을 저장하는 변수
+    var isUpponButtonVisible = true;
+
+    // Uppon_button을 깜빡이게 만들기 위한 타이머 설정
+    setInterval(toggleUpponButton, 1000); // 1초마다 깜빡임
+
+    // Uppon_button을 깜빡이게 만들기 위한 함수
+    function toggleUpponButton() {
+        var upponButton = document.getElementById("uppon-button");
+        if (isUpponButtonVisible) {
+            upponButton.style.display = 'none';
+        } else {
+            upponButton.style.display = 'block';
+        }
+        isUpponButtonVisible = !isUpponButtonVisible; // 상태를 토글
+    }
 
     // 게임 버전별 데이터 및 이미지 경로
     var gameData = {
