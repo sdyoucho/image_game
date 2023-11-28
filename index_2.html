@@ -41,15 +41,27 @@
             height: 100%;
             object-fit: contain; /* 배율 조정을 위해 object-fit: contain 사용 */
         }
+
+        .transparent-image {
+            opacity: 0.5; /* 투명도 조절 */
+        }
     </style>
 </head>
 <body>
     <div id="game-container" style="background-image: url('background_image.png');">
         <!-- 게임 버전 선택 이미지 -->
+
+        <div id="information">
+            <img src="AGF_logo.png" class="game-version" data-version="로고" alt="로고" style="position: absolute; top: 62px; left: 47%;" onclick="showImage('AGF_logo')">
+            <img src="header.png" class="game-version" data-version="헤더" alt="헤더" style="position: absolute; top: 174px; left: 9%;" onclick="showImage('header')">
+            <img src="uppon_button.png" class="game-version" data-version="선택창" alt="선택창" style="position: absolute; top: 510px; left: 34.5%;" onclick="showImage('uppon_button'); toggleUpponButton();">
+            <img src="overthewall_logo.png" class="game-version" data-version="회사로고" alt="회사로고" style="position: absolute; top: 1750px; left: 21.5%;" onclick="showImage('otw_logo')">
+        </div>
+
         <div id="game-versions">
-            <img src="stardays_button.png" class="game-version" data-version="스타데이즈" alt="스타데이즈" style="position: absolute; top: 878px; left: 15%;" onclick="showImage('stardays')">
-            <img src="luvdia_button.png" class="game-version" data-version="러브다이아" alt="러브다이아" style="position: absolute; top: 1172px; left: 15%;" onclick="showImage('luvdia')">
-            <img src="anke_button.png" class="game-version" data-version="안케" alt="안케" style="position: absolute; top: 1474px; left: 15%;" onclick="showImage('anke')">
+            <img src="stardays_button.png" class="game-version" data-version="스타데이즈" alt="스타데이즈" style="position: absolute; top: 706px; left: 13%;" onclick="showImage('stardays')">
+            <img src="luvdia_button.png" class="game-version" data-version="러브다이아" alt="러브다이아" style="position: absolute; top: 1058px; left: 13%;" onclick="showImage('luvdia')">
+            <img src="anke_button.png" class="game-version" data-version="안케" alt="안케" style="position: absolute; top: 1406px; left: 13%;" onclick="showImage('anke')">
         </div>
 
         <!-- 게임 상단에 찾은 차이점의 수 표시 -->
@@ -106,7 +118,7 @@
             selectedWrongImageContainer.style.display = 'block';
 
             // 뒷배경 변경
-            document.getElementById('game-container').style.backgroundImage = "url('background_image_2.png')";
+            document.getElementById('game-container').style.backgroundImage = "url('background_image.png')";
         }
     </script>
     <script>
