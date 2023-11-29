@@ -54,23 +54,35 @@
         .transparent-image {
             opacity: 0.5; /* 투명도 조절 */
         }
+
+        @media (max-width: 1080px) {
+          .selected-image {
+              margin: 0 2%;
+              width: 96%;
+          }
+
+          .selected-wrong-image {
+              margin: 0 2.5%;
+              width: 96%;
+          }
+        }
     </style>
 </head>
 <body>
-    <div id="game-container" style="background-image: url('background_image.png');">
+    <div id="game-container">
         <!-- 게임 버전 선택 이미지 -->
 
         <div id="information">
-            <img src="AGF_logo.png" class="game-version" data-version="로고" alt="AGF2023logo" style="position: absolute; top: 62px; left: 47%;">
-            <img src="header.png" class="game-version" data-version="헤더" alt="overthewall_game" style="position: absolute; top: 174px; left: 9%;">
-            <img src="uppon_button.png" class="game-version" data-version="선택창" alt="선택창" style="position: absolute; top: 510px; left: 34.5%;" toggleUpponButton();>
-            <img src="overthewall_logo.png" class="game-version" data-version="회사로고" alt="회사로고" style="position: absolute; top: 1750px; left: 21.5%;">
+            <img src="images/AGF_logo.png" data-version="로고" alt="AGF2023logo" style="position: absolute; top: 62px; left: 47%;">
+            <img src="images/header.png" data-version="헤더" alt="overthewall_game" style="position: absolute; top: 174px; left: 9%;">
+            <img src="images/uppon_button.png" class="game-version" data-version="선택창" alt="선택창" style="position: absolute; top: 510px; left: 34.5%;" toggleUpponButton();>
+            <img src="images/overthewall_logo.png" class="game-version" data-version="회사로고" alt="회사로고" style="position: absolute; top: 1750px; left: 21.5%;">
         </div>
 
         <div id="game-versions">
-            <img src="stardays_button.png" class="game-version" data-version="스타데이즈" alt="스타데이즈" style="position: absolute; top: 706px; left: 13%;" onclick="showImage('stardays')">
-            <img src="luvdia_button.png" class="game-version" data-version="러브다이아" alt="러브다이아" style="position: absolute; top: 1058px; left: 13%;" onclick="showImage('luvdia')">
-            <img src="anke_button.png" class="game-version" data-version="안케" alt="안케" style="position: absolute; top: 1406px; left: 13%;" onclick="showImage('anke')">
+            <img src="images/stardays_button.png" class="game-version" data-version="스타데이즈" alt="스타데이즈" style="position: absolute; top: 706px; left: 13%;" onclick="startGame('stardays')">
+            <img src="images/luvdia_button.png" class="game-version" data-version="러브다이아" alt="러브다이아" style="position: absolute; top: 1058px; left: 13%;" onclick="startGame('luvdia')">
+            <img src="images/anke_button.png" class="game-version" data-version="안케" alt="안케" style="position: absolute; top: 1406px; left: 13%;" onclick="startGame('anke')">
         </div>
 
         <!-- 게임 상단에 찾은 차이점의 수 표시 -->
@@ -94,87 +106,234 @@
             <img class="selected-wrong-image" id="selected-wrong-image" alt="선택한 이미지 (틀린 그림)">
             <canvas class="canvas-overlay" id="canvas-overlay"></canvas>
         </div>
+
+        <div class="bottom-button-container">
+          <img src="images/main_button.png" class="main-button" alt="메인 버튼" style="display:none; position: absolute; top: 1700px; left: 12%;" onclick="clearGame()">
+          <img src="images/download_button.png" class="download-button" alt="다운로드 버튼" style="display:none; position: absolute; top: 1700px; left: 52%;" onclick="download()">
+        </div>
     </div>
 
-    <script src="script_3.js"></script>
+    <!-- <script src="script_3.js"></script> -->
     <script>
-        
-        function showImage(version) {
-            // 모든 game-version 이미지 숨기기
-            var gameVersions = document.getElementsByClassName('game-version');
-            for (var i = 0; i < gameVersions.length; i++) {
-                gameVersions[i].style.display = 'none';
+      const DATA = {
+        stardays: {
+          images: {
+            originalSource: 'images/stardays/stardays_main_image.png',
+            wrongImageSource: 'images/stardays/stardays_main_wrong_image.png',
+          },
+          answers: [
+            {
+                x: 271,
+                y: 189,
+            },
+            {
+                x: 475,
+                y: 297,
+            },
+            {
+                x: 552,
+                y: 252,
+            },
+            {
+                x: 451,
+                y: 384,
+            },
+            {
+                x: 333,
+                y: 482,
+            },
+            {
+                x: 911,
+                y: 452,
+            },
+            {
+                x: 745,
+                y: 300,
             }
-
-            // 선택한 이미지 표시
-            var selectedImage = document.getElementById('selected-image');
-            var selectedImageContainer = document.querySelector('.selected-image-container');
-            var selectedWrongImage = document.getElementById('selected-wrong-image');
-            var selectedWrongImageContainer = document.querySelector('.selected-wrong-image-container');
-
-            if (version === 'stardays') {
-                selectedImage.src = 'stardays/stardays_main_image.png'; // 스타데이즈 이미지 경로
-                selectedWrongImage.src = 'stardays/stardays_main_wrong_image.png'; // 스타데이즈 틀린 이미지 경로
-            } else if (version === 'luvdia') {
-                selectedImage.src = 'luvdia/luvdia_main_image.png'; // 러브다이아 이미지 경로
-                selectedWrongImage.src = 'luvdia/luvdia_main_wrong_image.png'; // 러브다이아 틀린 이미지 경로
-            } else if (version === 'anke') {
-                selectedImage.src = 'anke/anke_main_image.png'; // 안케 이미지 경로
-                selectedWrongImage.src = 'anke/anke_main_wrong_image.png'; // 안케 틀린 이미지 경로
+          ],
+          prizes: [
+            'images/prize/stardays_choki.png',
+            'images/prize/stardays_natsuki.png',
+            'images/prize/stardays_terri.png',
+            'images/prize/stardays_van.png',
+          ]
+        },
+        luvdia: {
+          images: {
+            originalSource: 'images/luvdia/Luvdia_main_image.png',
+            wrongImageSource: 'images/luvdia/Luvdia_main_wrong_image.png',
+          },
+          answers: [
+            {
+              x: 49, 
+              y: 347
+            },
+            {
+              x: 355,
+              y: 363
+            },
+            {
+              x: 500,
+              y: 329
+            },
+            {
+              x: 447,
+              y: 527
+            },
+            {
+              x: 897, 
+              y: 159
             }
+          ],
+          prizes: [
+            'images/prize/luvdia_ani.png',
+            'images/prize/luvdia_dona.png',
+            'images/prize/luvdia_hayu.png',
+            'images/prize/luvdia_lili.png',
+            'images/prize/luvdia_mei.png',
+          ]
+        },
+        anke: {
+          images: {
+            originalSource: 'images/anke/anke_main_image.png',
+            wrongImageSource: 'images/anke/anke_main_wrong_image.png',
+          },
+          answers: [
+              {
+                  x: 438,
+                  y: 442
+              },
+              {
+                  x: 243,
+                  y: 179
+              },
+              {
+                  x: 207,
+                  y: 492
+              },
+              {
+                  x: 282,
+                  y: 569
+              },
+              {
+                  x: 596,
+                  y: 406
+              },
+              {
+                  x: 546,
+                  y: 214
+              }
+          ],
+          prizes: [
+            'images/prize/anke_image.png',
+          ]
+        },
+      }
+  
+      const selectedImage = document.getElementById('selected-image');
+      const selectedImageContainer = document.querySelector('.selected-image-container');
+      const selectedWrongImage = document.getElementById('selected-wrong-image');
+      const selectedWrongImageContainer = document.querySelector('.selected-wrong-image-container');
+      const mainButton = document.querySelector('.main-button');
+      const downloadButton = document.querySelector('.download-button');
+      const canvas = document.getElementById("canvas-overlay");
+      const gameVersions = document.getElementsByClassName('game-version');
+      const ctx = canvas.getContext('2d');
+      let version = "";
 
-            selectedImageContainer.style.display = 'block';
-            selectedWrongImageContainer.style.display = 'block';
-
-            // 뒷배경 변경
-            document.getElementById('game-container').style.backgroundImage = "url('background_image.png')";
+      const download = async () => {
+        for (url of DATA[version].prizes) {
+          const image = await fetch(url, {
+            mode: "no-cors",
+          });
+          const imageBlog = await image.blob();
+          const imageURL = URL.createObjectURL(imageBlog);
+          const link = document.createElement("a");
+          link.href = imageURL;
+          link.download = url;
+          document.body.appendChild(link);
+          link.click();
+          document.body.removeChild(link);
         }
-    </script>
-    <script>
-        // div 요소 찾기
-        var selectedWrongImageContainer = document.querySelector('.selected-wrong-image-container');
-        if (selectedWrongImageContainer) {
-            // 요소가 존재할 때만 처리
-            selectedWrongImageContainer.addEventListener('click', function (event) {
-                // 클릭 이벤트 처리
-                var rect = this.getBoundingClientRect();
-                var x = (event.clientX - rect.left) * (this.offsetWidth / this.clientWidth);
-                var y = (event.clientY - rect.top) * (this.offsetHeight / this.clientHeight);
-                console.log("Clicked at (x=" + x + ", y=" + y + ")");
+      }
+      const clearGame = () => {
+          for (var i = 0; i < gameVersions.length; i++) {
+              gameVersions[i].style.display = 'block';
+          }
+          selectedImageContainer.style.display = 'none';
+          selectedWrongImageContainer.style.display = 'none';
+          mainButton.style.display = 'none';
+          downloadButton.style.display = 'none';
+      }
+      const startGame = (v) => {
+          version = v;
+          // 모든 game-version 이미지 숨기기
+          for (var i = 0; i < gameVersions.length; i++) {
+              gameVersions[i].style.display = 'none';
+          }
 
-                // 추가: 클릭한 좌표에 빨간색 원 그리기
-                var canvas = document.getElementById("canvas-overlay");
-                var ctx = canvas.getContext("2d");
-                ctx.clearRect(0, 0, canvas.width, canvas.height);
-                ctx.beginPath();
-                ctx.arc(x, y, 5, 0, 2 * Math.PI);
-                ctx.fillStyle = "red";
-                ctx.fill();
-                ctx.closePath();
-            });
-        }
+          // 선택한 이미지 표시
+          selectedImage.src = DATA[version].images.originalSource;
+          selectedWrongImage.src = DATA[version].images.wrongImageSource;
 
-        // 브라우저 창 크기 변경 시 canvas 크기 조정
-        window.addEventListener('resize', function () {
-            var canvas = document.getElementById("canvas-overlay");
-            var selectedWrongImageContainer = document.querySelector('.selected-wrong-image-container');
-            canvas.width = selectedWrongImageContainer.clientWidth;
-            canvas.height = selectedWrongImageContainer.clientHeight;
-    
-        // 클릭한 좌표를 다시 계산
-            var rect = selectedWrongImageContainer.getBoundingClientRect();
-            var x = (clickedX - rect.left) * (canvas.width / selectedWrongImageContainer.clientWidth);
-            var y = (clickedY - rect.top) * (canvas.height / selectedWrongImageContainer.clientHeight);
-    
-        // 기존 클릭 위치를 초기화한 후 새로 계산한 위치로 빨간색 원 그리기
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-            ctx.beginPath();
-	        ctx.lineWidth = 3;
-	        ctx.arc(positionArray[i].split(',')[0],positionArray[i].split(',')[1],20,0,2*Math.PI);
-	        ctx.strokeStyle = 'red';
-	        ctx.stroke();
-        });
+          selectedImageContainer.style.display = 'block';
+          selectedWrongImageContainer.style.display = 'block';
+          mainButton.style.display = 'block';
 
+          // 뒷배경 변경
+          document.getElementById('game-container').style.backgroundImage = "url('images/background_image.png')";
+
+          const foundedAnswers = [];
+          const drawAnswerCircle = (x, y) => {
+              ctx.beginPath();
+              ctx.arc(x, y, 40, 0, 2 * Math.PI);
+              ctx.strokeStyle = 'red';
+              ctx.lineWidth = 8;
+              ctx.stroke();
+              ctx.closePath();
+          }
+          const render = () => {
+              ctx.clearRect(0, 0, canvas.width, canvas.height);
+              foundedAnswers.forEach((point) => {
+                drawAnswerCircle(point.x, point.y);
+              });
+              console.log(foundedAnswers);
+          };
+          const updateCanvas = () => {
+              canvas.width = selectedWrongImageContainer.clientWidth;
+              canvas.height = selectedWrongImageContainer.clientHeight;
+              render();
+          }
+          const gameEnd = () => {
+            downloadButton.style.display = 'block';
+            alert('정답을 모두 찾았습니다!');
+          }
+          const addAnswer = (x, y) => {
+            // foundedAnswers.push({x, y});
+            // return;
+            const answer = DATA[version].answers.find((realAnswer) => realAnswer.x - 50 < x && x < realAnswer.x + 50 && realAnswer.y - 50 < y && y < realAnswer.y + 50);
+            if (answer && foundedAnswers.find((foundedAnswer) => foundedAnswer.x == answer.x && foundedAnswer.y == answer.y) === undefined) {
+              foundedAnswers.push({x: answer.x, y: answer.y});
+            }
+            if (DATA[version].answers.length == foundedAnswers.length) {
+              gameEnd();
+            }
+          }
+          updateCanvas();
+  
+          selectedWrongImageContainer.addEventListener('click', function (event) {
+              const rect = selectedWrongImageContainer.getBoundingClientRect();
+              const x = (event.clientX - rect.left) * (canvas.width / selectedWrongImageContainer.clientWidth);
+              const y = (event.clientY - rect.top) * (canvas.height / selectedWrongImageContainer.clientHeight);
+              console.log("Clicked at (x=" + x + ", y=" + y + ")");
+              addAnswer(x, y);
+              render();
+              console.dir(selectedWrongImageContainer.clientWidth)
+          });
+
+          // 브라우저 창 크기 변경 시 canvas 크기 조정
+          window.addEventListener('resize', () => updateCanvas());
+      }
     </script>
 </body>
 </html>
