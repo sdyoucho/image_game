@@ -151,11 +151,7 @@
                 y: 300,
             }
           ],
-          prizes: [
-            'images/prize/stardays_choki.png',
-            'images/prize/stardays_natsuki.png',
-            'images/prize/stardays_terri.png',
-            'images/prize/stardays_van.png',
+          prizes: [ 'https://drive.google.com/drive/folders/1IOto58covq0uWYPM-CxH1oUY1ua1FFpg?usp=sharing'
           ]
         },
         luvdia: {
@@ -185,12 +181,7 @@
               y: 159
             }
           ],
-          prizes: [
-            'images/prize/luvdia_ani.png',
-            'images/prize/luvdia_dona.png',
-            'images/prize/luvdia_hayu.png',
-            'images/prize/luvdia_lili.png',
-            'images/prize/luvdia_mei.png',
+          prizes: [ 'https://drive.google.com/drive/folders/1XuCC_rLuIBEC7XLQYEC_a0tVNyW4ERfs?usp=drive_link'
           ]
         },
         anke: {
@@ -225,7 +216,7 @@
               }
           ],
           prizes: [
-            'images/prize/anke_image.png',
+            'https://drive.google.com/drive/folders/1XuCC_rLuIBEC7XLQYEC_a0tVNyW4ERfs?usp=drive_link'
           ]
         },
       }
@@ -242,20 +233,16 @@
       let version = "";
 
       const download = async () => {
-        for (url of DATA[version].prizes) {
-          const image = await fetch(url, {
-            mode: "no-cors",
-          });
-          const imageBlog = await image.blob();
-          const imageURL = URL.createObjectURL(imageBlog);
-          const link = document.createElement("a");
-          link.href = imageURL;
-          link.download = url;
-          document.body.appendChild(link);
-          link.click();
-          document.body.removeChild(link);
-        }
-      }
+   for (url of DATA[version].prizes) {
+      const link = document.createElement("a");
+      link.href = url;
+      link.donwload = url;
+      link.target = "_blank";
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+   }
+}
       const clearGame = () => {
           for (var i = 0; i < gameVersions.length; i++) {
               gameVersions[i].style.display = 'block';
